@@ -1,0 +1,198 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+/* =================================== * ALL * ========================================== */
+a{
+  text-decoration: none;
+  color: black
+}
+.buttons:hover{
+  color: black !important;
+  background-color: white !important;
+  border: 2px solid black !important;
+}
+.buttonswhite:hover{
+  color: white !important;
+  background-color: black !important;
+  border: 2px solid black !important;
+}
+.buttonswhite:active{
+  box-shadow: 0 3px 0 grey;
+  top: 3px;
+}
+.buttons:active{
+  box-shadow: 0 3px 0 black;
+  top: 3px;
+}
+/* =================================== * HEADER * ========================================== */
+.container{
+  height: 150px;
+}
+@media screen and (max-width: 500px){
+  .container{
+    height: 100px;
+  }
+}
+.logo{
+  font-family: EB Garamond, serif;
+  font-size:4em;
+  margin-top:1%;
+}
+@media screen and (max-width: 500px){
+  .logo{
+  font-family: EB Garamond, serif;
+  font-size: 2.5em;
+  margin-top: 5%;
+  }
+}
+
+/* =================================== * NAVBAR * ========================================== */
+.gridNavbar{
+  background-color: black;
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  height: 38px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+@media screen and (max-width:500px){
+  .gridNavbar{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;  
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+}
+.burguer{
+    display: none!important;
+}
+@media screen and (max-width:500px){
+  .burguer{
+    display:block !important;
+    color: white;
+    margin-left:0.4em;
+    margin-top: 0.1em;
+    font-size:25px;
+  }
+}
+.navBar{
+  display: grid !important;
+  justify-content: space-around;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top:0.1em;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+}
+@media screen and (max-width:500px){
+  .navBar{
+    display: none !important;
+  }
+}
+.burguerMenu{
+  display:none !important;
+}
+@media screen and (max-width:500px){
+  .burguerMenu{
+    display: block!important;
+  }
+}
+.navBar a{
+  text-decoration: none;
+  color: white;
+}
+.banana{
+  margin-top: 4px;
+}
+.banana:hover{
+  border-bottom: 2px solid rgb(249, 249, 250);
+  margin-bottom: 4px;
+}
+/* =================================== * PRODUCTS * ========================================== */
+.grid{
+  display: grid;
+  grid-template-columns: 15% 85%;
+}
+@media screen and (max-width: 500px){
+  .grid{
+    grid-template-columns: 1fr;
+  }
+}
+.bagsDisplay {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2em;
+}
+@media screen and (max-width: 500px){
+  .bagsDisplay{
+    grid-template-columns: 1fr;
+  }
+}
+@media screen and (max-width: 500px){
+  .sideBar{
+    display: none;
+  }
+}
+/* =================================== * PRODUCT * ========================================== */
+.productGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr
+}
+@media screen and (max-width: 500px){
+  .productGrid{
+  grid-template-columns: 1fr;
+}
+}
+/* =================================== * SIDEBAR * ========================================== */
+.sidebarItem:hover{
+  border-bottom: 1px solid rgb(42, 43, 45) !important; 
+  font-weight: bold;
+}
+
+/* =================================== * SHOPPINGCART * ========================================== */
+
+/* =================================== * FOOTER * ========================================== */
+.footerHover a:hover {
+  border-bottom: 2px solid rgb(42, 43, 45) !important;
+}
+
+/* =================================== * HOMEPAGE * ========================================== */
+.imgHover:hover{
+border-bottom: 2px solid rgb(42, 43, 45)!important;
+}
+.category:hover{
+  opacity: 0.5;
+}
+
+/* =================================== * ADMIN * ========================================== */
+.fa-trash:hover {
+  border: 1px solid rgb(42, 43, 45) !important;
+  background-color: black;
+  color: white;
+}
+.fa-edit:hover {
+  border: 1px solid rgb(42, 43, 45) !important;
+  background-color: black;
+  color: white;
+} 
+
+
+
+
+
+
+
+
