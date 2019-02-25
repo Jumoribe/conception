@@ -35,11 +35,13 @@ mongoose.connect('mongodb://127.0.0.1/ecommercedb', () =>{
 const categoriesRoute = require('./routes/categories');
 const productsRoute = require('./routes/products');
 const usersRoute = require('./routes/users');
+const emailsRoute = require('./routes/emails')
 const indexRouter = require('./routes/index')
  // use routes
 app.use('/categories', categoriesRoute);
 app.use('/products', productsRoute);
 app.use('/users', usersRoute);
+app.use('/emails', emailsRoute); 
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler

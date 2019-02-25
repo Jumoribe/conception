@@ -45,6 +45,17 @@ class ProductsController{
             console.log(error)
         }
     }
+    async findByDescription (req, res){
+        let {description} = req.params;
+        console.log('==============================',description);
+        try{
+            const mySearch = await Products.find({description: {$regex : description}});
+            res.send({mySearch})
+        }
+        catch(error){
+            console.log(error)
+        }
+    }
     async add (req, res){
         let {title, designer, price, description, category, color, img, sale, stock, categoryID} = req.body;
         console.log('product req.body =',req.body)
@@ -102,19 +113,6 @@ class ProductsController{
             console.log(error)
         }
     }
-    async takingFromTheStock (req, res){
-        let { id } = req.body
-        try{
-            const updateStock = await Products.updateOne(
-                {_id:id}, {$inc:{ stock: -1}
-            })
-            res.send({updateStock})
-            console.log('id-->',id, updateStock)
-        }
-        catch(error){
-            console.log(error) 
-        }
-    }
     async purchase (req, res) {
         const stripe = require("stripe")("sk_test_aUVMmNykq5vrdz1r9HZlwnru");
         try{
@@ -125,6 +123,35 @@ class ProductsController{
         catch(error) {
             res.status(500).send({error})
         } 
+    }
+    async takingFromTheStock (req, res) {
+        let { infoForStock } = req.body;
+        console.log("=====req.body from takingFromStock=====", req.body)
+        try {
+
+            infoForStock.shoppingCart.map( async ele=>{
+                console.log('ele of stock ---> ', ele) 
+                
+                    let updatedStock = await Products.updateOne({_id:ele._id}, {$set:{stock: ele.stock-ele.quantity}})
+                      console.log(ele._id, ele.stock, ele.quantity)
+                })
+                res.send('updated stock')
+        }
+        catch(error) {
+            console.log(error)
+            res.send(error)
+        }
+    }
+    async wishList (req, res) {
+        let { ids } = req.params;
+        try{
+            const list = await Products.find({_id: {$in :ids.split(',')}}) //this is to have the separete items in an array separate by comma
+            console.log(list)
+            res.send({list})
+        }
+        catch(error) {
+            console.log(error)
+        }
     }
 }
 
