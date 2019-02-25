@@ -15,35 +15,21 @@ export default class Products extends React.Component{
         this.state.display === 'block' ? this.setState({display:'none'}) : this.setState({display:'block'})
         this.state.display === 'none' ? this.setState({display:'block'}) : this.setState({display:'none'})
     }
-    componentDidMount () {
-        this.findProducts();
-    }
-    findProducts = async () => {
-        let url = 'http://localhost:3001/products';
-        try{
-            const products = await axios.get(url)
-            this.setState({productsList: products.data.myProducts})
-            console.log({products})
-        }
-        catch(error){
+    // componentDidMount () {
+    //     this.findProducts();
+    // }
+    // findProducts = async () => {
+    //     let url = 'http://142.93.228.2/server/products';
+    //     try{
+    //         const products = await axios.get(url)
+    //         this.setState({productsList: products.data.myProducts})
+    //         console.log({products})
+    //     }
+    //     catch(error){
             
-            console.log({error})
-        }
-    }
-    findProductsByCategory = async (id) => {
-        id =  id || this.props.match.params.categoryID;
-        let url = `http://localhost:3001/products/products_by_category/${id}`;
-        try{
-            const category = await axios.get(url)
-            
-            this.setState({productsList: category.data.productsByCategory})
-            console.log({category})
-        }
-        catch(error){
-            
-            console.log({error})
-        }
-    }
+    //         console.log({error})
+    //     }
+    // }
 
     showDesigners = () =>{
         this.state.displaydesigners === 'block' ? this.setState({displaydesigners:'none'}) : this.setState({displaydesigners:'block'})
@@ -51,7 +37,7 @@ export default class Products extends React.Component{
     }
 
     findproductsByDesigners= async (kiwi) => {
-        let url = `http://localhost:3001/products/products_by_desinger`;
+        let url = `http://142.93.228.2/server/products/products_by_desinger`;
         try{
             const designers = await axios.get(url)
             
@@ -75,7 +61,7 @@ export default class Products extends React.Component{
                     Categories
                 </p>
                     <SideBar 
-                    findProductsByCategory={this.findProductsByCategory}
+                    findProductsByCategory={this.props.findProductsByCategory}
                     showSideBar={this.showSideBar}
                     display={this.state.display}
                     />
@@ -90,7 +76,7 @@ export default class Products extends React.Component{
              <div style={decor.small}>
                  <div className='bagsDisplay'>
                  {
-                    this.state.productsList.map ((ele, i) => { 
+                    this.props.productsList.map ((ele, i) => { 
                          if(true){
                              if(i  < 9){
                                 return(

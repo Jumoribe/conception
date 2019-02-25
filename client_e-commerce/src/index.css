@@ -188,6 +188,37 @@ border-bottom: 2px solid rgb(42, 43, 45)!important;
   background-color: black;
   color: white;
 } 
+/* ============ STRIPE BUTTON ============== */
+.StripeCheckout > span{
+  background :rgb(42, 43, 45) !important;
+  height: 35px !important;
+  text-align: center !important;
+  font-family: 'EB Garamond', serif !important;
+  text-transform: uppercase !important;
+  font-size: 13px !important;
+  color : white !important;
+  outline: none !important;
+  border: 2px solid rgb(42, 43, 45) !important;
+  border-radius: 0px !important;
+  width: 100px
+}
+.StripeCheckout > span:hover{
+  background : white !important;
+  color : black !important;
+  border-bottom : 2px solid black !important;
+  border-radius: 0px !important;
+}
+.StripeCheckout{
+  width: 100px;
+  height: 35px;
+  display: flex !important;
+  align-items: center !important;
+  background-color: transparent !important;
+  margin: auto ! important;
+}
+button.StripeCheckout{
+  background: transparent !important;
+}
 
 
 

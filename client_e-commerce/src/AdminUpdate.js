@@ -25,7 +25,7 @@ export default class AdminUpdate extends React.Component{
     }
     findProduct = async () => {
         
-        let url = `http://localhost:3001/products/product/${this.props.match.params.id}`;
+        let url = `http://142.93.228.2/server/products/product/${this.props.match.params.id}`;
         try{
             const product = await axios.get(url)
             
@@ -41,7 +41,7 @@ export default class AdminUpdate extends React.Component{
         this.setState({[e.target.name]: e.target.value})
     }
     updateProduct=()=>{
-        let url = 'http://localhost:3001/products/update'
+        let url = 'http://142.93.228.2/server/products/update'
         let {newStock, newTitle, newDesigner, newPrice, newDescription, newCategoryID, newColor, newImg}=this.state
         try{
             axios.post(url, {id:this.props.match.params.id, newTitle:newTitle, newDesigner:newDesigner, newPrice:newPrice, newDescription:newDescription, categoryID:newCategoryID, newColor:newColor, newImg: newImg, newStock: newStock})

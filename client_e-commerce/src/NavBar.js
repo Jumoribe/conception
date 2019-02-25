@@ -1,47 +1,21 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 import Burguer from './Burguer'
-import axios from 'axios';
 
 export default class NavBar extends React.Component{
     state = {
         input:'', display:'none'
     }
     handleChange=e=>{
-        this.setState({input:e.target.value})
+        this.setState({input:e.target.value},()=>console.log(this.state.input))
     }
-    search=()=>{
-    return false
+    search= async(arg)=>{
+    this.props.findProducts();
+    await this.props.search(arg)
     }
     showBurguer = () =>{
         this.state.display === 'none' ? this.setState({display:'block'}) : this.setState({display:'none'})
         this.state.display === 'block' ? this.setState({display:'none'}) : this.setState({display:'block'})
-    }
-    componentDidMount () {
-        this.findProducts();
-    }
-    findProducts = async () => {
-        let url = 'http://localhost:3001/products';
-        try{
-            const products = await axios.get(url)
-            this.setState({productsList: products.data.myProducts})
-            console.log({products})
-        }
-        catch(error){            
-            console.log({error})
-        }
-    }
-    findProductsByCategory = async (id) => {
-        id =  id || this.props.match.params.categoryID;
-        let url = `http://localhost:3001/products/products_by_category/${id}`;
-        try{
-            const category = await axios.get(url)            
-            this.setState({productsList: category.data.productsByCategory})
-            console.log({category})
-        }
-        catch(error){           
-            console.log({error})
-        }
     }
     render(){
         return(
@@ -49,16 +23,18 @@ export default class NavBar extends React.Component{
             <div>
                 <div onClick={this.showBurguer} className='burguer'><i className="fas fa-bars" style={{color:'white'}}></i>
                     <Burguer
+                    findProductsByCategory =  {this.props.findProductsByCategory}
                     showBurguer = {this.showBurguer}
-                    findProductsByCategory={this.findProductsByCategory}
+                    // findProductsByCategory={this.findProductsByCategory}
                     display={this.state.display}
+                    categories={this.props.categories}
                     />
                 </div>    
             </div>
             <div className='navBar' style={{width: '80%', margin: 'auto', display:'flex', justifyContent: 'space-around'}}>
                 <NavLink className ="banana" to={'/aboutus'}>About us</NavLink>
                 <NavLink className ="banana" to={'/designers'}>Designers</NavLink>
-                <NavLink className ="banana" to={'/products'}>Products</NavLink>
+                <NavLink className ="banana" to={'/products'} onClick={()=>this.props.findProducts}>Products</NavLink>
                 <NavLink className ="banana" to={'/sale'}>Sale</NavLink>
             </div>
             <div className='find' style={decor.search}>
@@ -67,7 +43,7 @@ export default class NavBar extends React.Component{
                 style={decor.input}
                 />
                 <div style={decor.find}>
-                <i onClick={this.search} className="fas fa-search" style={{color:'white'}}></i>
+                <i onClick={()=>this.search(this.state.input)} className="fas fa-search" style={{color:'white'}}></i>
                 </div>
             </div>
 

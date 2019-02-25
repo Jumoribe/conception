@@ -10,7 +10,7 @@ export default class SideBar extends React.Component{
       }
 
     findCategories = async()=>{
-        let url = 'http://localhost:3001/categories/admin';
+        let url = 'http://142.93.228.2/server/categories/admin';
         try{
             const categories = await axios.get(url);
             this.setState({categoriesList: categories.data.myCategories})
@@ -21,10 +21,10 @@ export default class SideBar extends React.Component{
             debugger
         }
     }
-    handleMenu =(arg)=>{
+/*     handleMenu =(arg)=>{
         console.log('>>>>>>>>>>>>>>>>>>>>>=======>',this.props)
         this.props.findProductsByCategory(arg);
-    }
+    } */
     render(){
 
         return(
@@ -33,7 +33,7 @@ export default class SideBar extends React.Component{
                 {
                 this.state.categoriesList.map(ele=>{
                     return(  
-                    <p onClick={()=>this.handleMenu(ele._id)} className='sidebarItem' style={decor.item}>{ele.category}</p>
+                    <p onClick={()=>this.props.findProductsByCategory(ele._id)} className='sidebarItem' style={decor.item}>{ele.category}</p>
                     )
                 })
                 }

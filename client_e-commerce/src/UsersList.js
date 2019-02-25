@@ -9,7 +9,7 @@ export default class UsersList extends React.Component {
         this.findUsers(); 
     }
     findUsers = async () =>{
-       let url = 'http://localhost:3001/users'
+       let url = 'http://142.93.228.2/server/users'
         try{
             let users = await axios.get(url);
             this.setState({usersList: users.data.myUsers})

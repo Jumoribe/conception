@@ -16,7 +16,7 @@ export default class AdminUpdCategory extends React.Component{
          this.setState({[e.target.name]: e.target.value})
      }
      updateCategory= async()=>{
-        let url = 'http://localhost:3001/categories/admin/update'
+        let url = 'http://142.93.228.2/server/categories/admin/update'
         try{
             await axios.post(url, {newCategory:this.state.newCategory, id:this.props.match.params.id})
             this.props.history.push({pathname:'/admin/category'})

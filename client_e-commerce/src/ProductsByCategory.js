@@ -20,7 +20,7 @@ export default class ProductsByCategory extends React.Component{
     }
     findProductsByCategory = async (id) => {
         id =  id || this.props.match.params.categoryID;
-        let url = `http://localhost:3001/products/products_by_category/${id}`;
+        let url = `http://142.93.228.2/server/products/products_by_category/${id}`;
         try{
             const category = await axios.get(url)
             

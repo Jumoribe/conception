@@ -22,7 +22,7 @@ showProductsInBag = async () => {
     let cart = JSON.parse( localStorage.getItem('shoppingCart'))|| [];
     debugger
     let cart_ids = cart.map(ele=>ele._id);
-    let url = `http://localhost:3001/products/products_in_bag/${cart_ids}`;
+    let url = `http://142.93.228.2/server/products/products_in_bag/${cart_ids}`;
     try{
         const products_in_bag = await axios.get(url);
         debugger

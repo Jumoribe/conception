@@ -11,7 +11,7 @@ export default class UserRegisterForm extends React.Component {
 
     addRegister = async () => {
         let { name, surname, email, phone, address, optional, postcode, town, province, country, password, passwordConfimation } = this.state;
-        fetch('http://localhost:3001/users/register', {
+        fetch('http://142.93.228.2/server/users/register', {
         method: 'POST',
             headers: {
               Accept: 'application/json',

@@ -19,7 +19,7 @@ export default class Product extends React.Component{
     }
     findProduct = async () => {
         
-        let url = `http://localhost:3001/products/product/${this.props.match.params.id}`;
+        let url = `http://142.93.228.2/server/products/product/${this.props.match.params.id}`;
         try{
             const product = await axios.get(url)
             
@@ -35,7 +35,7 @@ export default class Product extends React.Component{
         let shoppingCart  = JSON.parse(localStorage.getItem('shoppingCart')) || [];
         debugger
         let _id = this.props.match.params.id
-            const products = await axios.get(`http://localhost:3001/products/product/${this.props.match.params.id}`);
+            const products = await axios.get(`http://142.93.228.2/server/products/product/${this.props.match.params.id}`);
 
             debugger
             var index = shoppingCart.findIndex(ele => ele._id === _id);
@@ -48,11 +48,23 @@ export default class Product extends React.Component{
                 alert('out of stock')
             } 
             //=====================when do the order confirmation======================
-            // let url = `http://localhost:3001/products/remove_from_stock`
+            // let url = `http://142.93.228.2/server/products/remove_from_stock`
             // await axios.post(url, {id:this.props.match.params.id})    
             // console.log('===============>', this.state.newstock) 
         localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
      }
+     addToFav = async () => {
+        let wishList = JSON.parse(localStorage.getItem('wishList')) || [];
+        let _id = this.props.match.params.id
+        const product = await axios.get(`http://142.93.228.2/server/products/product/${_id}`)
+        var index = wishList.findIndex(ele=> ele._id === _id);
+        if(index === -1){
+            wishList.push({_id:_id})
+        } else {
+            alert('this item is already in your wish list')
+        }
+        localStorage.setItem('wishList', JSON.stringify(wishList))
+    }
 
     render(){
         let { title, designer, price, img, description} = this.state;
@@ -61,6 +73,7 @@ export default class Product extends React.Component{
             <div className='productGrid'>
             <div>
                 <img src={img} style={decor.img} alt='productPic'/>
+                <span style={decor.star} onClick={this.addToFav} className="star"><i className="far fa-star"></i></span>
             </div>
             <div style={decor.product}>
                 <div style={decor.title}>{title}</div>
@@ -119,5 +132,11 @@ const decor = {
         height: '30px',
         outline: 'none',
         marginTop: '2em'
-    }
+    },
+    star: {
+        position: 'absolute',
+        marginRight: '2%',
+        marginTop: '100px',
+        
+    },
 }

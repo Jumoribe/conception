@@ -16,7 +16,7 @@ export default class AdminCategory extends React.Component{
       }
 
     findCategories = async()=>{
-        let url = 'http://localhost:3001/categories/admin';
+        let url = 'http://142.93.228.2/server/categories/admin';
         try{
             const categories = await axios.get(url);
             this.setState({categoriesList: categories.data.myCategories})
@@ -32,7 +32,7 @@ export default class AdminCategory extends React.Component{
     }
 
     addCategory = async() => {
-        let url = 'http://localhost:3001/categories/admin/new';
+        let url = 'http://142.93.228.2/server/categories/admin/new';
         try{
             console.log(this.state.category)
             await axios.post(url,{category:this.state.category});
@@ -48,7 +48,7 @@ export default class AdminCategory extends React.Component{
         this.props.history.push({pathname:`/admin/category/new/${id}/${category}`})
     }
     handleDelete = (id) => {
-        let url = 'http://localhost:3001/categories/admin/delete';
+        let url = 'http://142.93.228.2/server/categories/admin/delete';
         try{
             axios.post(url, {_id:id})
             this.findCategories();

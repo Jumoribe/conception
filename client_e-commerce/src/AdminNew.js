@@ -21,7 +21,7 @@ export default class AdminNew extends React.Component{
         this.addProduct();
     }
     findProducts = async()=>{
-        let url = 'http://localhost:3001/products/';
+        let url = 'http://142.93.228.2/server/products/';
         try{
             const products = await axios.get(url);
             this.setState({productsList: products.data.myProducts})
@@ -34,7 +34,7 @@ export default class AdminNew extends React.Component{
     }
     addProduct= async( )=>{
         let {title, designer, price, description, category, color, img, stock} = this.state
-        let url = 'http://localhost:3001/products/new'
+        let url = 'http://142.93.228.2/server/products/new'
         try{
             await axios.post(url, {
                 title: title, 

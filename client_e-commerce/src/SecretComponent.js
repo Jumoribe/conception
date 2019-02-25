@@ -6,7 +6,7 @@ export default class SecretComponent extends React.Component {
     }
     componentDidMount(){
             let token = localStorage.getItem('authToken');
-            fetch('http://localhost:3001/', {
+            fetch('http://142.93.228.2/server/', {
                 method: 'GET',
                 headers: {
                 Accept: 'application/json',

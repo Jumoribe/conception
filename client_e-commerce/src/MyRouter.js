@@ -35,10 +35,12 @@ import EmailFromUser from './EmailFromUser';
 import SecretComponent from './SecretComponent';
 import CheckoutForm from './CheckoutForm';
 import UserStripeButton from './UserStripeButton';
+import axios from 'axios'
 
 export default class MyRouter extends React.Component{
   state = {
-    loggedIn:false
+    loggedIn:false,
+    productsList:[]
   }
   componentDidMount(){
       var token = localStorage.getItem('authToken')
@@ -48,11 +50,53 @@ export default class MyRouter extends React.Component{
       } else {
         this.setState({loggedIn:false})
       }
+      this.findProducts();
+      this.search();
   }
   isLoggedIn = (bool, email) => {
     
       this.setState({loggedIn:bool, email})
   }
+  findProducts = async () => {
+    let url = 'http://142.93.228.2/server/products';
+    try{
+        const products = await axios.get(url)
+        this.setState({productsList: products.data.myProducts})
+        console.log({products})
+    }
+    catch(error){            
+        console.log({error})
+    }
+}
+
+  findProductsByCategory = async (id) => {
+   
+    id =  id || this.props.match.params.categoryID;
+ 
+    let url = `http://142.93.228.2/server/products/products_by_category/${id}`;
+    try{
+        const category = await axios.get(url)
+        
+        this.setState({productsList: category.data.productsByCategory})
+        console.log({category})
+    }
+    catch(error){
+        
+        console.log({error})
+    }
+}
+search = async(arg)=>{
+  let url = `http://142.93.228.2/server/products/search/${arg}`;
+  try{
+      const products = await axios.get(url)
+      this.setState({productsList: products.data.mySearch})
+      console.log({products});
+  }
+  catch(error){
+      debugger
+  }
+}
+
   render() {
     let { loggedIn, email } = this.state 
     return (
@@ -63,10 +107,24 @@ export default class MyRouter extends React.Component{
             email ={email}  
             isLoggedIn = {this.isLoggedIn}
           />
-          <NavBar/>
+          <NavBar
+          findProductsByCategory={this.findProductsByCategory}
+          findProducts = {this.findProducts}
+          search = {this.search}
+          />
           <Route exact path = "/sidebar" component = {Sidebar}/>
           <Route exact path = "/" component = {Homepage}/>
-          <Route exact path = "/products" component = {Products}/>
+          <Route exact path = "/products"
+            render = {
+              (props)=>(
+                  <Products
+                    {...props}
+                    findProductsByCategory={this.findProductsByCategory}
+                    productsList ={this.state.productsList}
+                  />
+              )
+            }
+          />
           <Route exact path = "/products/:id" component = {Product}/>
           <Route exact path = '/favorites' component = {Favorites}/>
           <Route exact path = "/shoppingcart"

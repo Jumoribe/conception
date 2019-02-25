@@ -1,25 +1,84 @@
 import React from 'react';
+import axios from 'axios';
 
 export default class Favorites extends React.Component {
-state = {total:'7500,00'}
-goShopping = () =>{
-        this.props.history.push({pathname:"/products"})
+state = {
+    title: '',
+    color: '',
+    price: '',
+    img: '',
+    _id: '',
+    wishList: [],
+    shoppingCart: [],
+    id: '',
+    size: 'U'
 }
-goBag = () =>{
-    if (true){
-        this.props.history.push({pathname:"/shoppingcart"})
+
+componentDidMount () {
+    this.showProductsInWishList();
+  }
+goShopping = () => {
+    this.props.history.push({pathname:'products'})
+}
+gotoBag = () => {
+    this.props.history.push({pathname:'shoppingcart'})
+}
+addToBag = async (ele) => {
+    debugger
+    let shoppingCart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+    let wishList = JSON.parse(localStorage.getItem('wishList')) || [];
+    let _id = this.props.match.params.id
+    console.log(shoppingCart, wishList)
+    const product = await axios.get(`http://142.93.228.2/server/products/product/${this.props.match.params.id}`)
+    var index = shoppingCart.findIndex(el=> el._id === ele._id);
+    var indexInWishList = wishList.findIndex(el=> el._id === ele._id)
+    var stock = product.data.myProduct.stock;
+    if ( stock > 0 && index === -1 ){
+        shoppingCart.push({_id:_id, quantity:1})
+    } else if(index > -1 && stock > shoppingCart[index].quantity){
+        //alert('already in your cart')
+        shoppingCart[index].quantity += 1                
+    } else{ alert('out of stock')} 
+    wishList.splice(indexInWishList, 1)
+    this.setState({wishList})
+    localStorage.setItem('wishList', JSON.stringify(wishList))
+    localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart))
+    //this.setState({ shoppingCart },()=>console.log(this.state))
+    console.log("this is the function addtobag of wishlist ", shoppingCart)
+}
+delete = (ele) => {
+    console.log("this is the ele of delete in wishlist ", ele)
+    let { wishList } = this.state 
+    var index = wishList.findIndex(el => el._id === ele._id);
+    wishList.splice(index, 1)
+    this.setState({wishList})
+    localStorage.setItem('wishList', JSON.stringify(wishList))
+}
+showProductsInWishList = async () => {
+    let wishList = JSON.parse(localStorage.getItem('wishList')) || [];
+    debugger
+    var wishList_ids = wishList.map(ele=>ele._id);
+    let url = `http://142.93.228.2/server/products/products_in_wishlist/${wishList_ids}`;
+    try{
+        const products_wishlist = await axios.get(url);
+        var newWishList = [];
+        products_wishlist.data.list.forEach((ele, i)=>{
+         var index = wishList.findIndex(el => el._id === ele._id);
+         if(index > -1){
+           var obj = {...ele, ...wishList[index]}
+         }
+         newWishList.push(obj);
+        });
+        this.setState({wishList:newWishList})
+        console.log(this.state.wishList)
     }
-}
-addProductInBag = ()=>{
-    return false
-}
-deleteOfFavorites=()=>{
-    return false
-}
+    catch(error){
+        console.log({error})
+    }
+  }
+
 render(){
-    let item1 =[{title: 'Drawstring Bag', designer:'Chanel', size: 'U', price: '€4000', description: 'Grained Calfskin & Gold-Tone Metal', category: 'bags', color: 'white', image: 'https://www.chanel.com/images/t_fashion/q_auto,f_jpg,fl_lossy,dpr_2/w_1240/drawstring-bag-white-grained-calfskin-gold-tone-metal-grained-calfskin-gold-tone-metal-packshot-default-as0310b0017010601-8812985843742.jpg', sale: false},
-    {title: 'Flap Bag', designer:'Chanel', size:'U', price: '€3500', description: 'Lambskin & Gold-Tone Metal', category: 'bags', color: 'white', image: 'https://www.chanel.com/images/t_fashion/q_auto,f_jpg,fl_lossy,dpr_2/w_1920/flap-bag-white-lambskin-gold-tone-metal-lambskin-gold-tone-metal-packshot-default-as0321b0012010601-8811046043678.jpg', sale: false},
-];
+    let { wishList } = this.state
 return(
     <div style={decor.small}>
     <p style={{...decor.register, ...decor.border}}> My wish list</p>
@@ -30,16 +89,16 @@ return(
         </div>
     <div>
     {
-        item1.map(ele=>{
+        wishList.map(ele=>{
             return( 
                 <div style={decor.borderItem}>
-                    <div style={decor.image}><img style={decor.pic}src={ele.image} alt='pic'/></div> 
-                    <div style={decor.items}>{ele.description}</div>
-                    <div style={decor.items}>{ele.size}</div>
+                    <div style={decor.image}><img style={decor.pic}src={ele.img} alt='pic'/></div> 
+                    <div style={decor.items}>{ele.title}</div>
+                    <div style={decor.items}>{this.state.size}</div>
                     <div style={decor.items}>{ele.color}</div>
                     <div style={decor.items}>{ele.price}</div>
-                    <div style={decor.trash}><i onClick={this.addProductInBag} class="fas fa-shopping-bag"></i></div>
-                    <div style={decor.trash}><i onClick={this.deleteOfFavorites} class="fas fa-trash"></i></div>
+                    <div style={decor.trash}><i onClick={()=>this.addToBag(ele)} class="fas fa-shopping-bag"></i></div>
+                    <div style={decor.trash}><i onClick={()=>{this.delete(ele)}} class="fas fa-trash"></i></div>
                 </div>
             )
         })
@@ -51,7 +110,7 @@ return(
         onClick={this.goShopping}
         className='buttons' style={decor.buttonLeft}>Continue Shopping</button>  
         <button 
-        onClick={this.goBag}
+        onClick={this.gotoBag}
         className='buttons' style={decor.button}>Go to Bag</button>
     </div>  
     </div>

@@ -10,7 +10,7 @@ export default class UserLogin extends React.Component{
     login = (e) =>{
         let { email , password } = this.state
         //post request
-        fetch('http://localhost:3001/users/login', {
+        fetch('http://142.93.228.2/server/users/login', {
             method: 'POST',
             headers: {
               Accept: 'application/json',

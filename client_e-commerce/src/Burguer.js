@@ -7,28 +7,28 @@ export default class Burguer extends React.Component{
        }
     componentDidMount(){
         this.findCategories();
-    }
+    } 
    
-    findCategories = async()=>{
-        let url = 'http://localhost:3001/categories/admin';
+ findCategories = async()=>{
+        let url = 'http://142.93.228.2/server/categories/admin';
        try{
            const categories = await axios.get(url);
            this.setState({categoriesList: categories.data.myCategories})
-           console.log(this.state.categoriesList, categories)
+           console.log(categories.category)
         }
         catch(error){
             console.log(error)              
         }
-    }
-
+    } 
     findProductsByCategory = async (id) => {
-        this.props.history.push(`/products/products_by_category/${id}`)
+        //this.props.history.push(`/products/products_by_category/${id}`)
         id =  id || this.props.match.params.categoryID;
-        let url = `http://localhost:3001/products/products_by_category/${id}`;
+        console.log('id =',id)
+        let url = `http://142.93.228.2/server/products/products_by_category/${id}`;
         try{
             const category = await axios.get(url)            
             this.setState({productsList: category.data.productsByCategory})
-            console.log({category})
+            console.log(category.data.productsByCategory)
         }
         catch(error){           
             console.log({error})
@@ -42,7 +42,7 @@ export default class Burguer extends React.Component{
                 {
                 this.state.categoriesList.map(ele=>{
                     return(  
-                    <p onClick={()=>this.findProductsByCategory(ele._id)} style={decor.item}>{ele.category}</p>
+                    <p onClick={()=>this.props.findProductsByCategory(ele._id)} style={decor.item}>{ele.category}</p>
                     )
                 })
                 }

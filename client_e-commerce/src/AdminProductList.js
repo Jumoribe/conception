@@ -20,7 +20,7 @@ export default class AdminProductList extends React.Component{
         this.findProducts();
     }
     findProducts = async () => {
-        let url = 'http://localhost:3001/products';
+        let url = 'http://142.93.228.2/server/products';
         try{
             const products = await axios.get(url)
             this.setState({productsList: products.data.myProducts})
@@ -38,7 +38,7 @@ export default class AdminProductList extends React.Component{
         this.props.history.push({pathname:`/admin/category/product/update/${ele._id}`})
     }
     deleteProduct = async (id) => {
-        let url='http://localhost:3001/products/delete';
+        let url='http://142.93.228.2/server/products/delete';
         try{
             await axios.post(url, {_id:id})
             this.findProducts();
