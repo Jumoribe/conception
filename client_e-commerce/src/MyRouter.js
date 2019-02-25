@@ -51,7 +51,7 @@ export default class MyRouter extends React.Component{
         this.setState({loggedIn:false})
       }
       this.findProducts();
-      this.search();
+      //this.search();
   }
   isLoggedIn = (bool, email) => {
     
